@@ -1,0 +1,49 @@
+body {
+  background-color: #666;
+  font-family: 'Roboto', sans-serif;
+}
+
+video {
+  padding: 1rem;
+}
+
+button {
+  color: #42b983;
+  position: relative;
+  border-radius: 99px;
+  border: 1px solid #42b983;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 0.5rem 1.5rem;
+  font-weight: 900;
+  outline: none;
+  background: #fff;
+  transition: all 0.3s;
+  cursor: pointer;
+  margin: 1rem;
+}
+
+.primary {
+  color: #fff;
+  background: #42b983;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.container {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.card {
+  border-radius: 6px;
+  background-color: #fff;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, .2);
+}

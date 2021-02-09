@@ -4,8 +4,8 @@ const constraintObj = {
   // так же кроме флага true можем конфигурировать объект видео
   video: {
     facingMode: 'user',
-    width: { min: 640, ideal: 1280, max: 1920 },
-    height: { min: 480, ideal: 720, max: 1080 },
+    width: { min: 640, ideal: 640, max: 1200 },
+    height: { min: 480, ideal: 480, max: 720 },
   }
 }
 
@@ -22,8 +22,35 @@ navigator.mediaDevices.getUserMedia(constraintObj)
     let start = document.querySelector('.start-recording')
     let stop = document.querySelector('.stop-recording')
     let videoSave = document.querySelector('#video-save')
+    // Создаю новый MediaRecorder объект для записи видео, аудио
+    let mediaRecorder = new MediaRecorder(mediaStreamObject)
+    let chunks = []
 
-    console.log(start)
+    start.addEventListener('click', ev => {
+      // начинаем записывать
+      mediaRecorder.start()
+      console.log(mediaRecorder.state)
+    })
+
+    stop.addEventListener('click', ev => {
+      // останавливаем запись
+      mediaRecorder.stop()
+      console.log(mediaRecorder.state)
+    })
+
+    // запускаем обработчик данных записи и ложим данные в массив chunks, когда они готовы
+    mediaRecorder.ondataavailable = ev => chunks.push(ev.data)
+
+    mediaRecorder.onstop = ev => {
+      console.log('on stop')
+      let blob = new Blob(chunks, { 'type': 'video/mp4' })
+      console.log('blob готов для загрузки на сервер', blob)
+      // для сохранения памяти очищаем массив chunks
+      chunks = []
+
+      let videoUrl = window.URL.createObjectURL(blob)
+      videoSave.src = videoUrl
+    }
   })
   .catch(err => {
     console.log(err.name, err.message)
