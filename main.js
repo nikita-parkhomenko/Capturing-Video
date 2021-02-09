@@ -1,5 +1,3 @@
-let timer = 0;
-
 const constraintObj = {
   audio: true,
   // так же кроме флага true можем конфигурировать объект видео
@@ -28,28 +26,28 @@ navigator.mediaDevices.getUserMedia(constraintObj)
     let chunks = []
 
     start.addEventListener('click', ev => {
-      // начинаем записывать
+      // начинаю записывать
       mediaRecorder.start()
       console.log(mediaRecorder.state)
     })
 
     stop.addEventListener('click', ev => {
-      // останавливаем запись
+      // останавливаю запись
       mediaRecorder.stop()
       console.log(mediaRecorder.state)
     })
 
-    // запускаем обработчик данных записи и ложим данные в массив chunks, когда они готовы
+    // запускаю обработчик данных записи и ложим данные в массив chunks, когда они готовы
     mediaRecorder.ondataavailable = ({ data }) => chunks.push(data)
 
     mediaRecorder.onstop = ev => {
       console.log('on stop')
       let blob = new Blob(chunks, { 'type': 'video/webm' })
       console.log('blob готов для загрузки на сервер', blob)
-      // для сохранения памяти очищаем массив chunks
+      // для сохранения памяти очищаю массив chunks
       chunks = []
 
-      // создаем пустой FormData объект
+      // создаю пустой FormData объект
       const formData = new FormData()
       // Добавляю пару ключ значение и имя файла
       formData.append('file', blob, 'video.webm')
