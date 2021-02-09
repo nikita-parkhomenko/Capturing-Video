@@ -1,3 +1,4 @@
+let timer = 0;
 
 const constraintObj = {
   audio: true,
@@ -39,17 +40,23 @@ navigator.mediaDevices.getUserMedia(constraintObj)
     })
 
     // запускаем обработчик данных записи и ложим данные в массив chunks, когда они готовы
-    mediaRecorder.ondataavailable = ev => chunks.push(ev.data)
+    mediaRecorder.ondataavailable = ({ data }) => chunks.push(data)
 
     mediaRecorder.onstop = ev => {
       console.log('on stop')
-      let blob = new Blob(chunks, { 'type': 'video/mp4' })
+      let blob = new Blob(chunks, { 'type': 'video/webm' })
       console.log('blob готов для загрузки на сервер', blob)
       // для сохранения памяти очищаем массив chunks
       chunks = []
 
-      let videoUrl = window.URL.createObjectURL(blob)
-      videoSave.src = videoUrl
+      // создаем пустой FormData объект
+      const formData = new FormData()
+      // Добавляю пару ключ значение и имя файла
+      formData.append('file', blob, 'video.webm')
+      /*
+        Отправляем файл на сервер
+        axios({ method: 'POST', url: '/attachment/upload', formData })
+      */
     }
   })
   .catch(err => {
